@@ -1,0 +1,9 @@
+main: me.matt.grandtheftauto.GrandTheftAuto
+version: 1.0.0
+name: GrandTheftAuto
+load: POSTWORLD
+authors: [mattnicee7]
+website: github.com/mattnicee7
+commands:
+  organizations:
+  rg:

@@ -1,0 +1,21 @@
+Database:
+  Mode: 'SQLITE' # Modos disponiveis: SQLITE, MySQL
+  Username: 'matt'
+  Host: 'localhost'
+  Port: '3306'
+  Database: 'gta'
+  Password: '123123'
+
+# §
+
+Spawn: 'world;2500;74;1671;10;10'
+
+# Raios
+
+RaioShowRg: 5
+
+Start:
+  Money: 30000
+  Bank: 0
+  Cash: 0
+  Level: 2

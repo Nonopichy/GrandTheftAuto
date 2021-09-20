@@ -1,0 +1,34 @@
+NoConsole: '%timestamp% &cSomente jogadores podem executar esse comando'
+Offline: '&cEsse jogador não está online.' #
+PlayerTooFar: '&cEsse jogador está longe.' #
+
+# Organizations
+
+OrganizationsCreateSubCommandWrong: '&cUso incorreto. Use: /organizations create <name> <type> <#color>.'
+OrganizationExisting: '&cEssa organização já existe.'
+OrganizationTypeWrong: '&cTipo de organização não existente.'
+OrganizationWrongColor: '&cCor inválida.'
+OrganizationCreated: '&aOrganização criada com sucesso.'
+OrganizationNameLengthMax: '&cO nome tem de ser menor que 32.'
+OrganizationNotFound: '&cOrganização não encontrada.' #
+
+# Users
+
+Rg:
+  - '&f* RG de: %nickName% - Membro desde: %firstLogin%'
+  - '&bNível[%level%] Sexo[%gender%] Dinheiro[%money%] Banco[%moneyInBank%]'
+  - 'Moedas VIP[%cashBalance%] Ouros[%golds%] Avisos[%warns%] Tempo VIP[%vipTime%] Casado com[%none%]'
+  - '&bConta[%accountType%] Horas Jogadas[%playedHours%] Celular[%cellphone%] Créditos[%credits%]'
+  - '&bRespeito[%respectHave%/%respectMeta%] Crimes[%crimes%] Procura[%stars%] Matou[%killedTimes%] Morreu[%diedTimes%]'
+  - '&bEmprego[%job%] ORG:[%organization%] Cargo[%cargo%] Casa[%house%] Empresa[%company%] Fazenda[%farm%]'
+
+UserNotFound: '&cUsuário não encontrado no banco de dados.'
+
+# Show RG
+
+ShowRgWrongCommand: '&cUso incorreto. Use: /showrg <player>.' #
+
+# LocationType
+
+LocationTypeWrongCommand: '&cUso incorreto. Use: /locationtype <spawn/hq>' #
+LocationTypeSuccess: '&aSucesso. Você setou sua spawn padrão para &e%locationType%.'
