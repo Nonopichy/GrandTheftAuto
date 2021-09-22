@@ -65,6 +65,7 @@ public class Users implements TableService<User, String> {
             try (PreparedStatement st = conn.prepareStatement("SELECT nickName FROM gta_users WHERE nickName = ?")) {
                 st.setString(1, user.getNickName());
 
+                // TODO: 22/09/2021 verify if possible to switch to hasBy function 
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) return true;
                 }
@@ -99,7 +100,7 @@ public class Users implements TableService<User, String> {
 
     @Override
     public void add(User user) {
-        if (has(user)) throw new IllegalStateException("Ocorreu um erro na tabela USERS.");
+        if (has(user)) throw new IllegalStateException("Ocorreu um erro na tabela USERS."); // TODO: 22/09/2021 impossible 
         else insert(user);
     }
 
@@ -142,6 +143,7 @@ public class Users implements TableService<User, String> {
     public void update(User user) {
         try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
             // TODO: 20/09/2021 aaaaaaaaaaaaaaaaaaaaaaaaaaa 
+            // TODO: 22/09/2021 do this 
         } catch (SQLException exception) {
 
         }
@@ -219,7 +221,6 @@ public class Users implements TableService<User, String> {
 
     @Override
     public List<User> getAll() {
-        val sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         List<User> users = new ArrayList<>();
         try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT * FROM gta_users")) {
@@ -227,33 +228,12 @@ public class Users implements TableService<User, String> {
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {
                         val nickName = rs.getString("nickName");
-                        val firstLogin = sdf.parse(rs.getString("firstLogin"));
-                        val level = rs.getInt("level");
-                        val gender = Gender.valueOf(rs.getString("gender"));
-                        val money = rs.getDouble("money");
-                        val moneyInBank = rs.getDouble("moneyInBank");
-                        val cashBalance = rs.getDouble("cashBalance");
-                        val golds = rs.getInt("golds");
-                        val warns = rs.getInt("warns");
-                        val accountType = AccountType.valueOf(rs.getString("accountType"));
-                        val locationType = LocationType.valueOf(rs.getString("locationType"));
-                        val vipTime = rs.getLong("vipTime");
-                        val crimes = rs.getInt("crimes");
-                        val stars = rs.getInt("stars");
-                        val killedTimes = rs.getInt("killedTimes");
-                        val diedTimes = rs.getInt("diedTimes");
-                        val job = rs.getString("job");
-                        val organization = rs.getString("organization");
-                        val house = rs.getInt("house");
-                        val company = rs.getInt("company");
-                        val farm = rs.getInt("farm");
-                        val lastLogin = sdf.parse(rs.getString("lastLogin"));
 
-                        users.add(new User(nickName, firstLogin, level, gender, money, moneyInBank, cashBalance, golds, warns, accountType, locationType, vipTime, crimes, stars, killedTimes, diedTimes, plugin.getDatabaseManager().getJobs().get(job), plugin.getDatabaseManager().getOrganizations().get(organization), house, company, farm, lastLogin));
+                        users.add(get(nickName));
                     }
                 }
             }
-        } catch (SQLException | ParseException exception) {
+        } catch (SQLException exception) {
             Bukkit.getConsoleSender().sendMessage("§e" + DateUtil.getTimeStamp() + "Ocorreu um erro na tabela USERS: §r" + exception.getMessage());
         }
 

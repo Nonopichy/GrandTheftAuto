@@ -34,3 +34,4 @@
 
 * 19/09/2021: 1617 linhas de código
 * 20/09/2021: 1858 linhas de código
+* 22/09/2021: 2106 linhas de código

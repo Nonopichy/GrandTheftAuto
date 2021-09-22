@@ -48,6 +48,7 @@ public class MessageManager {
         // users
         simpleMessages.put("UserNotFound", messages.getString("UserNotFound"));
 
+        // users.rg
         simpleMessages.put("ShowRgWrongCommand", messages.getString("ShowRgWrongCommand"));
 
         // locationType

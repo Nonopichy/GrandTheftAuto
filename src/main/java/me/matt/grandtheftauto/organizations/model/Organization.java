@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.val;
 import me.matt.grandtheftauto.GrandTheftAuto;
 import me.matt.grandtheftauto.organizations.enums.OrganizationType;
+import me.matt.grandtheftauto.util.chat.ChatUtils;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class Organization {
 
     @Override
     public String toString() {
-        return "ID: " + getId() + " | Nome: " + getDisplayName() + " | Tipo: " + organizationType + " | Líder: " + ((getLeader() == null) ? "Ninguém" : getLeader());
+        return ChatUtils.parseColors("&" + getColor() + getId() + " | Nome: " + getDisplayName() + " | Tipo: " + getOrganizationType() + " | Líder: " + ((getLeader() == null) ? "Ninguém" : getLeader()));
     }
 
 }

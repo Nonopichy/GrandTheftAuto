@@ -86,7 +86,7 @@ public class Organizations implements TableService<Organization, String> {
                 }
             }
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage("§e" + DateUtil.getTimeStamp() + "Ocorreu um erro na tabela ORGANIZATIONS: §r" + exception.getMessage());
         }
 
         return false;
@@ -111,7 +111,7 @@ public class Organizations implements TableService<Organization, String> {
 
     @Override
     public void add(Organization organization) {
-        if (has(organization)) update(organization);
+        if (has(organization)) update(organization); // TODO: 22/09/2021 check
         else insert(organization);
     }
 
@@ -148,15 +148,15 @@ public class Organizations implements TableService<Organization, String> {
                 st.setString(4, organization.getOrganizationType().toString());
                 st.setString(5, organization.getColor());
                 st.setString(6, LocationParser.locToString(organization.getHqLocation()));
-                st.setString(7, organization.getLeader());
-                st.setString(8, organization.getSubLeader());
-                st.setString(9, Organization.listToString(organization.getMembers()));
+                st.setString(7, organization.getLeader()); // TODO: 22/09/2021
+                st.setString(8, organization.getSubLeader()); // TODO: 22/09/2021
+                st.setString(9, Organization.listToString(organization.getMembers())); // TODO: 22/09/2021 verify
                 st.setBoolean(10, organization.isVip());
 
                 st.executeUpdate();
             }
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage("§e" + DateUtil.getTimeStamp() + "Ocorreu um erro na tabela ORGANIZATIONS: §r" + exception.getMessage());
         }
     }
 
@@ -174,22 +174,13 @@ public class Organizations implements TableService<Organization, String> {
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {
                         val id = rs.getShort("id");
-                        val name = rs.getString("name");
-                        val displayName = rs.getString("displayName");
-                        val organizationType = OrganizationType.valueOf(rs.getString("organizationType"));
-                        val color = rs.getString("color");
-                        val hqLocation = LocationParser.stringToLoc(rs.getString("hqLocation"));
-                        val leader = rs.getString("leader");
-                        val subLeader = rs.getString("subLeader");
-                        val members = Organization.stringToList(rs.getString("members"));
-                        val isVip = rs.getBoolean("isVip");
 
-                        return new Organization(id, organizationType, name, displayName, color, hqLocation, leader, subLeader, members, isVip);
+                        return getById(id);
                     }
                 }
             }
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage("§e" + DateUtil.getTimeStamp() + "Ocorreu um erro na tabela ORGANIZATIONS: §r" + exception.getMessage());
         }
         return null;
     }
@@ -223,6 +214,25 @@ public class Organizations implements TableService<Organization, String> {
         return null;
     }
 
+    public Organization getByMember(String member) {
+        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+            try (PreparedStatement st = conn.prepareStatement("SELECT * FROM gta_organizations")) {
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        val id = rs.getShort("id");
+                        val list = Organization.stringToList(rs.getString("members"));
+
+                        if (list.contains(member)) return getById(id);
+                    }
+                }
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
+        return null;
+    }
+
     public Organization getByLeader(String leader) {
         try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT * FROM gta_organizations WHERE leader = ?")) {
@@ -231,16 +241,8 @@ public class Organizations implements TableService<Organization, String> {
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {
                         val id = rs.getShort("id");
-                        val name = rs.getString("name");
-                        val displayName = rs.getString("displayName");
-                        val organizationType = OrganizationType.valueOf(rs.getString("organizationType"));
-                        val color = rs.getString("color");
-                        val hqLocation = LocationParser.stringToLoc(rs.getString("hqLocation"));
-                        val subLeader = rs.getString("leader");
-                        val members = Organization.stringToList(rs.getString("members"));
-                        val isVip = rs.getBoolean("isVip");
 
-                        return new Organization(id, organizationType, name, displayName, color, hqLocation, leader, subLeader, members, isVip);
+                        return getById(id);
                     }
                 }
             }
@@ -275,17 +277,8 @@ public class Organizations implements TableService<Organization, String> {
                 try (ResultSet rs = st.executeQuery()) {
                     while (rs.next()) {
                         val id = rs.getShort("id");
-                        val name = rs.getString("name");
-                        val displayName = rs.getString("displayName");
-                        val organizationType = OrganizationType.valueOf(rs.getString("organizationType"));
-                        val color = rs.getString("color");
-                        val hqLocation = LocationParser.stringToLoc(rs.getString("hqLocation"));
-                        val leader = rs.getString("leader");
-                        val subLeader = rs.getString("subLeader");
-                        val members = rs.getString("members");
-                        val isVip = rs.getBoolean("isVip");
 
-                        list.add(new Organization(id, organizationType, name, displayName, color, hqLocation, leader, subLeader, Organization.stringToList(members), isVip));
+                        list.add(getById(id));
                     }
                 }
             }

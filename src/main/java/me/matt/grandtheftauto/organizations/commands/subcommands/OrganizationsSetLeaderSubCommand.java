@@ -60,6 +60,7 @@ public class OrganizationsSetLeaderSubCommand implements SubCommand {
         organization.setLeader(player.getName());
 
         plugin.getDatabaseManager().getOrganizations().update(organization);
+
         sender.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationLeaderSetted")
                 .replace("%player%", player.getName())
                 .replace("%organization%", organization.getDisplayName()));
