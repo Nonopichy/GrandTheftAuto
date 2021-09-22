@@ -3,7 +3,9 @@ package me.matt.grandtheftauto.organizations.commands;
 import me.matt.grandtheftauto.GrandTheftAuto;
 import me.matt.grandtheftauto.commands.SubCommand;
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsCreateSubCommand;
+import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsInviteSubCommand;
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsSeeSubCommand;
+import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsSetLeaderSubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +24,8 @@ public class OrganizationsCommand implements CommandExecutor {
         plugin.getCommand("organizations").setExecutor(this);
         subCommands.add(new OrganizationsCreateSubCommand(plugin));
         subCommands.add(new OrganizationsSeeSubCommand(plugin));
+        subCommands.add(new OrganizationsInviteSubCommand(plugin));
+        subCommands.add(new OrganizationsSetLeaderSubCommand(plugin));
     }
 
     @Override
@@ -34,7 +38,6 @@ public class OrganizationsCommand implements CommandExecutor {
         }
 
         Bukkit.dispatchCommand(sender, "organizations see");
-
 
         return false;
     }

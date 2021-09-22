@@ -39,6 +39,11 @@ public class MessageManager {
         simpleMessages.put("OrganizationCreated", messages.getString("OrganizationCreated"));
         simpleMessages.put("OrganizationNameLengthMax", messages.getString("OrganizationNameLengthMax"));
         simpleMessages.put("OrganizationNotFound", messages.getString("OrganizationNotFound"));
+        simpleMessages.put("OrganizationNotLeader", messages.getString("OrganizationNotLeader"));
+        simpleMessages.put("OrganizationMaxMembers", messages.getString("OrganizationMaxMembers"));
+        simpleMessages.put("OrganizationSetLeaderSubCommandWrong", messages.getString("OrganizationSetLeaderSubCommandWrong"));
+        simpleMessages.put("OrganizationPlayerAlreadyLeader", messages.getString("OrganizationPlayerAlreadyLeader"));
+        simpleMessages.put("OrganizationLeaderSetted", messages.getString("OrganizationLeaderSetted"));
 
         // users
         simpleMessages.put("UserNotFound", messages.getString("UserNotFound"));

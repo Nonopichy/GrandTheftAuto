@@ -7,3 +7,5 @@ website: github.com/mattnicee7
 commands:
   organizations:
   rg:
+  showrg:
+  locationtype:

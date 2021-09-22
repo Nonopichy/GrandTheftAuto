@@ -12,7 +12,7 @@ Spawn: 'world;2500;74;1671;10;10'
 
 # Raios
 
-RaioShowRg: 5
+RadiusShowRg: 5
 
 Start:
   Money: 30000

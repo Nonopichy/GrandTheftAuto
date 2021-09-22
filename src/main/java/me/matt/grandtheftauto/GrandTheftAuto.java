@@ -13,7 +13,6 @@ import me.matt.grandtheftauto.users.listener.PlayerLastLogin;
 import me.matt.grandtheftauto.users.listener.PlayerSpawn;
 import me.matt.grandtheftauto.util.DateUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -39,10 +38,6 @@ public final class GrandTheftAuto extends JavaPlugin {
         initDatabase();
 
         consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Servidor carregado com sucesso.");
-
-        String message = "&#FF0000 Sim! Isso é um teste.";
-        consoleCommandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-
     }
 
     @Override
@@ -88,7 +83,6 @@ public final class GrandTheftAuto extends JavaPlugin {
     }
 
     private void initDatabase() {
-        //consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Abrindo conexão com banco de dados...");
         val start = System.currentTimeMillis();
 
         databaseManager = new DatabaseManager(this);
@@ -98,7 +92,6 @@ public final class GrandTheftAuto extends JavaPlugin {
         consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Conexao com banco de dados aberta com sucesso em " + result + "ms.");
     }
 
-    /* -- */
     public static GrandTheftAuto getInstance() {
         return instance.orElseThrow(() -> new IllegalStateException("GrandTheftAuto instance is null"));
     }

@@ -23,7 +23,6 @@ public class PlayerLastLogin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         // TODO: 20/09/2021 do the update function
-        if (1 == 1) return;
         val user = plugin.getDatabaseManager().getUsers().get(event.getPlayer().getName());
         val lastLogin = new Date();
         user.setLastLogin(lastLogin);

@@ -26,27 +26,16 @@ public class OrganizationsSeeSubCommand implements SubCommand {
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length >= 2) {
 
-            System.out.println(args[0]);
-            System.out.println(args[1]);
-
             if (StringUtils.isNumeric(args[1])) {
                 val id = Short.parseShort(args[1]);
                 val organization = plugin.getDatabaseManager().getOrganizations().getById(id);
 
-                if (organization == null) {
-                    sender.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationNotFound"));
-                } else {
-                    sender.sendMessage(organization.toString());
-                }
+                sender.sendMessage((organization == null) ? plugin.getMessageManager().getSimpleMessage("OrganizationNotFound") : organization.toString());
             } else {
                 val name = args[1].toLowerCase();
                 val organization = plugin.getDatabaseManager().getOrganizations().get(name);
 
-                if (organization == null) {
-                    sender.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationNotFound"));
-                } else {
-                    sender.sendMessage(organization.toString());
-                }
+                sender.sendMessage((organization == null) ? plugin.getMessageManager().getSimpleMessage("OrganizationNotFound") : organization.toString());
             }
             return false;
 

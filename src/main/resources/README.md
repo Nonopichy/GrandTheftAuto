@@ -24,9 +24,11 @@
 * Territórios
 * Sequestro/Assalto
 
-# Permissões
+## Permissões
 
-* gta.addorganization
+* grandtheftauto.organizations.setleader -> Permissão para setar o lider de alguma organização
+* grandtheftauto.organizations.create -> Permissão para criar uma nova organização.
+* grandtheftauto.organizations.* -> Permissão para fazer tudo com organização.
 
 # Logs
 

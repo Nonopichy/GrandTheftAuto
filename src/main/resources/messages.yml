@@ -1,6 +1,6 @@
 NoConsole: '%timestamp% &cSomente jogadores podem executar esse comando'
-Offline: '&cEsse jogador não está online.' #
-PlayerTooFar: '&cEsse jogador está longe.' #
+Offline: '&cEsse jogador não está online.'
+PlayerTooFar: '&cEsse jogador está longe.'
 
 # Organizations
 
@@ -10,7 +10,12 @@ OrganizationTypeWrong: '&cTipo de organização não existente.'
 OrganizationWrongColor: '&cCor inválida.'
 OrganizationCreated: '&aOrganização criada com sucesso.'
 OrganizationNameLengthMax: '&cO nome tem de ser menor que 32.'
-OrganizationNotFound: '&cOrganização não encontrada.' #
+OrganizationNotFound: '&cOrganização não encontrada.'
+OrganizationNotLeader: '&cVocê não é lider de nenhuma organização.'
+OrganizationMaxMembers: '&cA organização já está cheia. Expulse alguém.'
+OrganizationSetLeaderSubCommandWrong: '&cUso incorreto. Use: /organizations setleader <organization> <player>.'
+OrganizationPlayerAlreadyLeader: '&cEsse jogador já é lider de uma organização.'
+OrganizationLeaderSetted: '&aVocê setou o jogador %player% como lider da organização %organization%.'
 
 # Users
 
@@ -26,9 +31,9 @@ UserNotFound: '&cUsuário não encontrado no banco de dados.'
 
 # Show RG
 
-ShowRgWrongCommand: '&cUso incorreto. Use: /showrg <player>.' #
+ShowRgWrongCommand: '&cUso incorreto. Use: /showrg <player>.'
 
 # LocationType
 
-LocationTypeWrongCommand: '&cUso incorreto. Use: /locationtype <spawn/hq>' #
+LocationTypeWrongCommand: '&cUso incorreto. Use: /locationtype <spawn/hq>'
 LocationTypeSuccess: '&aSucesso. Você setou sua spawn padrão para &e%locationType%.'

@@ -99,11 +99,8 @@ public class Users implements TableService<User, String> {
 
     @Override
     public void add(User user) {
-        if (has(user)) {
-            update(user);
-        } else {
-            insert(user);
-        }
+        if (has(user)) throw new IllegalStateException("Ocorreu um erro na tabela USERS.");
+        else insert(user);
     }
 
     @Override
@@ -222,7 +219,7 @@ public class Users implements TableService<User, String> {
 
     @Override
     public List<User> getAll() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        val sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         List<User> users = new ArrayList<>();
         try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT * FROM gta_users")) {

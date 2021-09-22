@@ -38,12 +38,21 @@ public class Organization {
         this.hqLocation = location;
     }
 
+    public void addMember(String name) {
+        members.add(name);
+    }
+
+    public void removeMember(String name) {
+        members.remove(name);
+    }
+
     /*
     * Function to compact a list in a string with ;
     * @param names = List of names to compact in string
     * @returns = compacted string
     * */
     public static String listToString(List<String> names) {
+        if (names == null) return null;
         if (names.isEmpty()) return null;
         int size = names.size();
         StringBuilder sb = new StringBuilder();
@@ -71,7 +80,7 @@ public class Organization {
 
     @Override
     public String toString() {
-        return "ID: " + getId() + " | Nome: " + getName() + " | Tipo: " + organizationType + " | Líder: " + ((getLeader() == null) ? "Ninguém" : getLeader());
+        return "ID: " + getId() + " | Nome: " + getDisplayName() + " | Tipo: " + organizationType + " | Líder: " + ((getLeader() == null) ? "Ninguém" : getLeader());
     }
 
 }
