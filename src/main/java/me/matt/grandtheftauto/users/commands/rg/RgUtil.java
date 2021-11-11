@@ -41,10 +41,11 @@ public class RgUtil {
                 .replace("%diedTimes%", String.valueOf(user.getDiedTimes()))
                 .replace("%job%", user.getJob() == null ? "Nenhum" : user.getJob().getName())
                 .replace("%organization%", user.getOrganization() == null ? "Nenhum" : user.getOrganization().getDisplayName())
-                .replace("%cargo%", "?????")
+                .replace("%cargo%", user.getOrganizationRole() == null ? "Nenhum" : user.getOrganizationRole().toString())
                 .replace("%house%", user.getHouse() == -1 ? "Nenhum" : String.valueOf(user.getHouse()))
                 .replace("%company%", user.getCompany() == -1 ? "Nenhum" : String.valueOf(user.getCompany()))
                 .replace("%farm%", user.getFarm() == -1 ? "Nenhum" : String.valueOf(user.getFarm()))));
+
     }
 
 }

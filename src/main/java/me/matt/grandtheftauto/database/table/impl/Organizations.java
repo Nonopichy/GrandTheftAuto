@@ -33,9 +33,7 @@ public class Organizations implements TableService<Organization, String> {
                     "organizationType VARCHAR(12) NOT NULL," +
                     "color VARCHAR(7) NOT NULL," +
                     "hqLocation VARCHAR(120) NOT NULL," + // TODO: 19/09/2021 verify length of a location string
-                    "leader VARCHAR(16)," +
-                    "subLeader VARCHAR(16)," +
-                    "members VARCHAR(320)," + // 17 * limitMembers;
+                    "members VARCHAR(400)," + // 17 * limitMembers;
                     "isVip BOOLEAN NOT NULL)")) {
                 st.executeUpdate();
             }
@@ -78,11 +76,14 @@ public class Organizations implements TableService<Organization, String> {
 
     public boolean hasByLeader(String leader) {
         try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
-            try (PreparedStatement st = conn.prepareStatement("SELECT name FROM gta_organizations WHERE leader = ?")) {
-                st.setString(1, leader);
-
+            try (PreparedStatement st = conn.prepareStatement("SELECT members, id FROM gta_organizations")) {
                 try (ResultSet rs = st.executeQuery()) {
-                    if (rs.next()) return true;
+                    while (rs.next()) {
+                        val id = rs.getShort("id");
+                        val organization = getById(id);
+
+                        if (organization.getLeader().equals(leader)) return true;
+                    }
                 }
             }
         } catch (SQLException exception) {
@@ -150,7 +151,7 @@ public class Organizations implements TableService<Organization, String> {
                 st.setString(6, LocationParser.locToString(organization.getHqLocation()));
                 st.setString(7, organization.getLeader()); // TODO: 22/09/2021
                 st.setString(8, organization.getSubLeader()); // TODO: 22/09/2021
-                st.setString(9, Organization.listToString(organization.getMembers())); // TODO: 22/09/2021 verify
+                st.setString(9, Organization.toCustomString(organization.getMembers())); // TODO: 22/09/2021 verify
                 st.setBoolean(10, organization.isVip());
 
                 st.executeUpdate();
@@ -200,10 +201,10 @@ public class Organizations implements TableService<Organization, String> {
                         val hqLocation = LocationParser.stringToLoc(rs.getString("hqLocation"));
                         val leader = rs.getString("leader");
                         val subLeader = rs.getString("subLeader");
-                        val members = Organization.stringToList(rs.getString("members"));
+                        val members = Organization.toMap(rs.getString("members"));
                         val isVip = rs.getBoolean("isVip");
 
-                        return new Organization(id, organizationType, name, displayName, color, hqLocation, leader, subLeader, members, isVip);
+                        return new Organization(id, organizationType, name, displayName, color, hqLocation, members, isVip);
                     }
                 }
 
@@ -220,9 +221,9 @@ public class Organizations implements TableService<Organization, String> {
                 try (ResultSet rs = st.executeQuery()) {
                     while (rs.next()) {
                         val id = rs.getShort("id");
-                        val list = Organization.stringToList(rs.getString("members"));
+                        val organization = getById(id);
 
-                        if (list.contains(member)) return getById(id);
+                        if (organization.hasMember(member)) return organization;
                     }
                 }
             }
@@ -235,14 +236,14 @@ public class Organizations implements TableService<Organization, String> {
 
     public Organization getByLeader(String leader) {
         try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
-            try (PreparedStatement st = conn.prepareStatement("SELECT * FROM gta_organizations WHERE leader = ?")) {
-                st.setString(1, leader);
+            try (PreparedStatement st = conn.prepareStatement("SELECT id, members FROM gta_organizations")) {
 
                 try (ResultSet rs = st.executeQuery()) {
                     if (rs.next()) {
                         val id = rs.getShort("id");
+                        val organization = getById(id);
 
-                        return getById(id);
+                        if (organization.getLeader().equals(leader)) return organization;
                     }
                 }
             }

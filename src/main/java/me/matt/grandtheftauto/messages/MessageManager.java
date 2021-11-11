@@ -7,10 +7,9 @@ import org.bukkit.ChatColor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+// change this
 public class MessageManager {
 
     private Config messages = new Config("messages.yml");
@@ -44,12 +43,16 @@ public class MessageManager {
         simpleMessages.put("OrganizationSetLeaderSubCommandWrong", messages.getString("OrganizationSetLeaderSubCommandWrong"));
         simpleMessages.put("OrganizationPlayerAlreadyLeader", messages.getString("OrganizationPlayerAlreadyLeader"));
         simpleMessages.put("OrganizationLeaderSetted", messages.getString("OrganizationLeaderSetted"));
+        simpleMessages.put("OrganizationAlreadyHaveLeader", messages.getString("OrganizationAlreadyHaveLeader"));
 
         // users
         simpleMessages.put("UserNotFound", messages.getString("UserNotFound"));
 
         // users.rg
         simpleMessages.put("ShowRgWrongCommand", messages.getString("ShowRgWrongCommand"));
+
+        // users.gender
+        simpleMessages.put("GenderChanged", messages.getString("GenderChanged"));
 
         // locationType
         simpleMessages.put("LocationTypeWrongCommand", messages.getString("LocationTypeWrongCommand"));

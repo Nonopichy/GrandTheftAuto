@@ -2,16 +2,11 @@ package me.matt.grandtheftauto.users.commands.rg;
 
 import lombok.val;
 import me.matt.grandtheftauto.GrandTheftAuto;
-import me.matt.grandtheftauto.users.enums.AccountType;
-import me.matt.grandtheftauto.users.enums.Gender;
-import me.matt.grandtheftauto.users.model.User;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.text.SimpleDateFormat;
 
 public class ShowRgCommand implements CommandExecutor {
 

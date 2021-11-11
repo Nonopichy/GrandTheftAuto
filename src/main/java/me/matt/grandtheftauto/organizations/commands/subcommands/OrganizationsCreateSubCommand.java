@@ -26,7 +26,6 @@ public class OrganizationsCreateSubCommand implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        // TODO: 19/09/2021 check if name length is grand then 32 
         if (!(sender instanceof Player)) {
             plugin.getMessageManager().getSimpleMessage("NoConsole");
             return false;
@@ -51,7 +50,7 @@ public class OrganizationsCreateSubCommand implements SubCommand {
             return false;
         }
 
-        val type = detect(args[2]);
+        val type = OrganizationType.detect(args[2]);
 
         if (type == null) {
             player.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationTypeWrong"));
@@ -69,10 +68,6 @@ public class OrganizationsCreateSubCommand implements SubCommand {
         player.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationCreated"));
 
         return false;
-    }
-
-    private OrganizationType detect(String organizationType) {
-        return OrganizationType.valueOf(organizationType.toUpperCase());
     }
 
 }

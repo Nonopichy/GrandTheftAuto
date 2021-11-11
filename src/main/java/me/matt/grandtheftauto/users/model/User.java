@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.val;
 import me.matt.grandtheftauto.GrandTheftAuto;
 import me.matt.grandtheftauto.jobs.model.Job;
+import me.matt.grandtheftauto.organizations.enums.OrganizationRole;
 import me.matt.grandtheftauto.organizations.model.Organization;
 import me.matt.grandtheftauto.users.enums.AccountType;
 import me.matt.grandtheftauto.users.enums.Gender;
@@ -36,6 +37,7 @@ public class User {
     private int diedTimes;
     private Job job;
     private Organization organization;
+    private OrganizationRole organizationRole;
     private int house;
     private int company;
     private int farm;
@@ -61,6 +63,7 @@ public class User {
         this.vipTime = -1;
         this.job = null;
         this.organization = null;
+        this.organizationRole = null;
         this.house = -1;
         this.company = -1;
         this.farm = -1;

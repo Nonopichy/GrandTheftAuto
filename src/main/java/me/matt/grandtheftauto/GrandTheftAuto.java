@@ -2,9 +2,12 @@ package me.matt.grandtheftauto;
 
 import lombok.Getter;
 import lombok.val;
+import me.matt.grandtheftauto.adapter.impl.OrganizationAdapter;
+import me.matt.grandtheftauto.adapter.impl.UserAdapter;
 import me.matt.grandtheftauto.database.manager.impl.DatabaseManager;
 import me.matt.grandtheftauto.messages.MessageManager;
 import me.matt.grandtheftauto.organizations.commands.OrganizationsCommand;
+import me.matt.grandtheftauto.users.commands.gender.ChangeGenderCommand;
 import me.matt.grandtheftauto.users.commands.locationtype.LocationTypeCommand;
 import me.matt.grandtheftauto.users.commands.rg.RgCommand;
 import me.matt.grandtheftauto.users.commands.rg.ShowRgCommand;
@@ -25,6 +28,9 @@ public final class GrandTheftAuto extends JavaPlugin {
     @Getter private DatabaseManager databaseManager;
     @Getter private MessageManager messageManager;
 
+    @Getter private UserAdapter userAdapter;
+    @Getter private OrganizationAdapter organizationAdapter;
+
     private final ConsoleCommandSender consoleCommandSender = Bukkit.getConsoleSender();
 
     @Override
@@ -42,7 +48,9 @@ public final class GrandTheftAuto extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Desligando o servidor.");
         databaseManager.unload();
+        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Servidor desligado com sucesso.");
     }
 
     private void registerCommands() {
@@ -55,6 +63,9 @@ public final class GrandTheftAuto extends JavaPlugin {
 
         // user.locationtype
         new LocationTypeCommand(this);
+
+        // user.gender
+        new ChangeGenderCommand(this);
 
         consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Comandos registrados com sucesso.");
     }
@@ -77,6 +88,10 @@ public final class GrandTheftAuto extends JavaPlugin {
 
         // messagemanager
         messageManager = new MessageManager();
+
+        // adapters
+        userAdapter = new UserAdapter(this);
+        organizationAdapter = new OrganizationAdapter(this);
 
         val result = System.currentTimeMillis() - start;
         consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Modulos carregados com sucesso em " + result + "ms.");

@@ -10,4 +10,8 @@ public enum OrganizationType {
     MURDERERS,
     NOT_CRIMINAL;
 
+    public static OrganizationType detect(String organizationType) {
+        return OrganizationType.valueOf(organizationType.toUpperCase());
+    }
+
 }

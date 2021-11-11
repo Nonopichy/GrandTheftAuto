@@ -14,7 +14,7 @@ public class LocationTypeCommand implements CommandExecutor {
 
     public LocationTypeCommand(GrandTheftAuto plugin) {
         this.plugin = plugin;
-        plugin.getCommand("locationtype").setExecutor(plugin);
+        plugin.getCommand("locationtype").setExecutor(this);
     }
 
     @Override
@@ -25,6 +25,7 @@ public class LocationTypeCommand implements CommandExecutor {
         }
 
         if (args.length != 1) {
+            // TODO: 23/09/2021 show atual locationtype
             sender.sendMessage(plugin.getMessageManager().getSimpleMessage("LocationTypeCommandWrong"));
             return false;
         }
@@ -34,7 +35,7 @@ public class LocationTypeCommand implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
             case "spawn":
-                // TODO: 20/09/2021
+                // TODO: 20/09/2021 check
                 user.setLocationType(LocationType.SPAWN);
                 plugin.getDatabaseManager().getUsers().update(user);
                 player.sendMessage(plugin.getMessageManager().getSimpleMessage("LocationTypeSuccess").replace("%locationType%", args[0].toUpperCase()));

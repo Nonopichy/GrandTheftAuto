@@ -3,6 +3,8 @@ package me.matt.grandtheftauto.organizations.commands.subcommands;
 import lombok.val;
 import me.matt.grandtheftauto.GrandTheftAuto;
 import me.matt.grandtheftauto.commands.SubCommand;
+import me.matt.grandtheftauto.organizations.enums.OrganizationRole;
+import me.matt.grandtheftauto.users.enums.LocationType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -57,8 +59,19 @@ public class OrganizationsSetLeaderSubCommand implements SubCommand {
             return false;
         }
 
-        organization.setLeader(player.getName());
+        if (organization.hasLeader()) {
+            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationAlreadyHaveLeader"));
+            return false;
+        }
 
+        organization.addMember(player.getName(), OrganizationRole.LEADER);
+
+        val user = plugin.getDatabaseManager().getUsers().get(player.getName());
+
+        user.setLocationType(LocationType.HQ);
+        user.setOrganization(organization);
+
+        plugin.getDatabaseManager().getUsers().update(user);
         plugin.getDatabaseManager().getOrganizations().update(organization);
 
         sender.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationLeaderSetted")

@@ -1,17 +1,17 @@
 package me.matt.grandtheftauto.organizations.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.val;
+import lombok.*;
 import me.matt.grandtheftauto.GrandTheftAuto;
+import me.matt.grandtheftauto.organizations.enums.OrganizationRole;
 import me.matt.grandtheftauto.organizations.enums.OrganizationType;
 import me.matt.grandtheftauto.util.chat.ChatUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Organization {
@@ -22,10 +22,15 @@ public class Organization {
     private String displayName;
     private String color;
     private Location hqLocation;
-    private String leader;
-    private String subLeader;
-    private List<String> members;
+    private Map<String, OrganizationRole> members;
     private boolean isVip;
+
+    // in database ::
+
+    // xMattNice_-3;SOekd-2
+    // name - cargo ; name - cargo
+
+    //
 
     /*
      * Function to register new organization.
@@ -37,51 +42,138 @@ public class Organization {
         this.displayName = displayName.replace("_", " ");
         this.color = color;
         this.hqLocation = location;
+
+        members = new HashMap<>();
     }
 
-    public void addMember(String name) {
-        members.add(name);
+    public void addMember(String name, OrganizationRole cargo) {
+        members.put(name, cargo);
     }
 
     public void removeMember(String name) {
         members.remove(name);
     }
 
-    /*
-    * Function to compact a list in a string with ;
-    * @param names = List of names to compact in string
-    * @returns = compacted string
-    * */
-    public static String listToString(List<String> names) {
-        if (names == null) return null;
-        if (names.isEmpty()) return null;
-        int size = names.size();
-        StringBuilder sb = new StringBuilder();
+    public boolean hasMember(String name) {
+        return members.containsKey(name);
+    }
 
-        for (String name : names) {
+    public boolean hasSubLeader() {
+        for (Map.Entry<String, OrganizationRole> member : members.entrySet()) {
+            val value = member.getValue();
+            if (value == OrganizationRole.SUB_LEADER) return true;
+        }
+
+        return false;
+    }
+
+    public boolean isSubLeader(String name) {
+        val value = members.get(name);
+        return value == OrganizationRole.SUB_LEADER;
+    }
+
+    public String getSubLeader() {
+        for (Map.Entry<String, OrganizationRole> member : members.entrySet()) {
+            val value = member.getValue();
+            if (value == OrganizationRole.SUB_LEADER) return member.getKey();
+        }
+
+        return null;
+    }
+
+    public boolean hasLeader() {
+        for (Map.Entry<String, OrganizationRole> member : members.entrySet()) {
+            val value = member.getValue();
+            if (value == OrganizationRole.LEADER) return true;
+        }
+
+        return false;
+    }
+
+    public boolean isLeader(String name) {
+        val value = members.get(name);
+        return value == OrganizationRole.LEADER;
+    }
+
+    public String getLeader() {
+        for (Map.Entry<String, OrganizationRole> member : members.entrySet()) {
+            val value = member.getValue();
+            if (value == OrganizationRole.LEADER) return member.getKey();
+        }
+
+        return null;
+    }
+
+    public int getMembersSize() {
+        return members.size();
+    }
+
+    public boolean hasSpace() {
+        return members.size() < 40;
+    }
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+
+    public static String toCustomString(Map<String, OrganizationRole> members) {
+        if (members.size() < 1) return null;
+
+        int size = members.size();
+        val sb = new StringBuilder();
+
+
+        for (Map.Entry<String, OrganizationRole> member : members.entrySet()) {
             size--;
-            sb.append(name);
+            sb.append(member.getKey());
+            sb.append("-" + member.getValue().toString());
+
             if (size > 1) sb.append(";");
         }
 
         return sb.toString();
     }
 
-    /*
-    * Reverse function listToString
-    * @param names = compact string with names
-    * @returns = a list of string with names.
-    * */
-    public static List<String> stringToList(String names) {
-        if (names == null) return null;
-        val parts = names.split(";");
+    public static Map<String, OrganizationRole> toMap(String customString) {
+        Map<String, OrganizationRole> map = new HashMap<>();
+        val split = customString.split(";");
 
-        return new ArrayList<>(Arrays.asList(parts));
+        for (String string : split) {
+            val split2 = string.split("-");
+
+            val name = split2[0];
+            val cargo = split2[1];
+
+            map.put(name, OrganizationRole.valueOf(cargo));
+        }
+
+        return map;
     }
 
     @Override
     public String toString() {
-        return ChatUtils.parseColors("&" + getColor() + getId() + " | Nome: " + getDisplayName() + " | Tipo: " + getOrganizationType() + " | Líder: " + ((getLeader() == null) ? "Ninguém" : getLeader()));
+        var i = 0;
+
+        for (Map.Entry<String, OrganizationRole> member : members.entrySet()) {
+            val player = Bukkit.getPlayer(member.getKey());
+            if (player != null) i++;
+        }
+
+        return ChatUtils.parseColors("&" + getColor()
+                + getId()
+                + " | Nome: "
+                + getDisplayName()
+                + " | Tipo: "
+                + getOrganizationType()
+                + " | Líder: "
+                + ((getLeader() == null) ? "Ninguém" : getLeader()
+                + " | Membros Online: " + i));
     }
 
 }

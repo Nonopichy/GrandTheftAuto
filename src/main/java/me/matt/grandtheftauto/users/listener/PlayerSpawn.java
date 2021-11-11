@@ -21,6 +21,7 @@ public class PlayerSpawn implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         val user = plugin.getDatabaseManager().getUsers().get(event.getPlayer().getName());
+        if (user == null) event.getPlayer().teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
 
         switch (user.getLocationType()) {
             case SPAWN:

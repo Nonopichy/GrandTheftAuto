@@ -2,10 +2,9 @@ package me.matt.grandtheftauto.database.table.impl;
 
 import lombok.val;
 import me.matt.grandtheftauto.GrandTheftAuto;
+import me.matt.grandtheftauto.adapter.impl.UserAdapter;
+import me.matt.grandtheftauto.database.manager.impl.DatabaseManager;
 import me.matt.grandtheftauto.database.table.TableService;
-import me.matt.grandtheftauto.users.enums.AccountType;
-import me.matt.grandtheftauto.users.enums.Gender;
-import me.matt.grandtheftauto.users.enums.LocationType;
 import me.matt.grandtheftauto.users.model.User;
 import me.matt.grandtheftauto.util.DateUtil;
 import org.bukkit.Bukkit;
@@ -13,22 +12,23 @@ import org.bukkit.Bukkit;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Users implements TableService<User, String> {
 
-    private GrandTheftAuto plugin;
+    private DatabaseManager databaseManager;
+    private UserAdapter userAdapter;
 
     public Users(GrandTheftAuto plugin) {
-        this.plugin = plugin;
+        this.databaseManager = plugin.getDatabaseManager();
+        this.userAdapter = plugin.getUserAdapter();
     }
 
     @Override
     public void createTable() {
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("CREATE TABLE IF NOT EXISTS gta_users (" +
                     "nickName VARCHAR(16) NOT NULL," +
                     "firstLogin VARCHAR(20) NOT NULL," +
@@ -61,7 +61,7 @@ public class Users implements TableService<User, String> {
 
     @Override
     public boolean has(User user) {
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT nickName FROM gta_users WHERE nickName = ?")) {
                 st.setString(1, user.getNickName());
 
@@ -78,7 +78,7 @@ public class Users implements TableService<User, String> {
 
     @Override
     public boolean hasBy(String nickName) {
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT nickName FROM gta_users WHERE nickName = ?")) {
                 st.setString(1, nickName);
 
@@ -107,7 +107,7 @@ public class Users implements TableService<User, String> {
     @Override
     public void insert(User user) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("INSERT INTO gta_users (nickName, firstLogin, level, gender, money, moneyInBank, cashBalance, golds, warns, accountType, locationType, vipTime, crimes, stars, killedTimes, diedTimes, job, organization, house, company, farm, lastLogin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ")) {
                 st.setString(1, user.getNickName());
                 st.setString(2, sdf.format(user.getFirstLogin()));
@@ -127,10 +127,11 @@ public class Users implements TableService<User, String> {
                 st.setInt(16, user.getDiedTimes());
                 st.setString(17, user.getJob() == null ? null : user.getJob().getName());
                 st.setString(18, user.getOrganization() == null ? null : user.getOrganization().getName());
-                st.setInt(19, user.getHouse());
-                st.setInt(20, user.getCompany());
-                st.setInt(21, user.getFarm());
-                st.setString(22, sdf.format(user.getLastLogin()));
+                st.setString(19, user.getOrganizationRole() == null ? null : user.getOrganizationRole().toString());
+                st.setInt(20, user.getHouse());
+                st.setInt(21, user.getCompany());
+                st.setInt(22, user.getFarm());
+                st.setString(23, sdf.format(user.getLastLogin()));
 
                 st.executeUpdate();
             }
@@ -141,7 +142,7 @@ public class Users implements TableService<User, String> {
 
     @Override
     public void update(User user) {
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             // TODO: 20/09/2021 aaaaaaaaaaaaaaaaaaaaaaaaaaa 
             // TODO: 22/09/2021 do this 
         } catch (SQLException exception) {
@@ -157,40 +158,15 @@ public class Users implements TableService<User, String> {
     @Override
     public User get(String nickName) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT * FROM gta_users WHERE nickName = ?")) {
                 st.setString(1, nickName);
 
                 try (ResultSet rs = st.executeQuery()) {
-                    if (rs.next()) {
-                        val nick = rs.getString("nickName");
-                        val firstLogin = sdf.parse(rs.getString("firstLogin"));
-                        val level = rs.getInt("level");
-                        val gender = Gender.valueOf(rs.getString("gender"));
-                        val money = rs.getDouble("money");
-                        val moneyInBank = rs.getDouble("moneyInBank");
-                        val cashBalance = rs.getDouble("cashBalance");
-                        val golds = rs.getInt("golds");
-                        val warns = rs.getInt("warns");
-                        val accountType = AccountType.valueOf(rs.getString("accountType"));
-                        val locationType = LocationType.valueOf(rs.getString("locationType"));
-                        val vipTime = rs.getLong("vipTime");
-                        val crimes = rs.getInt("crimes");
-                        val stars = rs.getInt("stars");
-                        val killedTimes = rs.getInt("killedTimes");
-                        val diedTimes = rs.getInt("diedTimes");
-                        val job = rs.getString("job");
-                        val organization = rs.getString("organization");
-                        val house = rs.getInt("house");
-                        val company = rs.getInt("company");
-                        val farm = rs.getInt("farm");
-                        val lastLogin = sdf.parse(rs.getString("lastLogin")); // 167, 188
-
-                        return new User(nick, firstLogin, level, gender, money, moneyInBank, cashBalance, golds, warns, accountType, locationType, vipTime, crimes, stars, killedTimes, diedTimes, plugin.getDatabaseManager().getJobs().get(job), plugin.getDatabaseManager().getOrganizations().get(organization), house, company, farm, lastLogin);
-                    }
+                    return userAdapter.adapt(rs);
                 }
             }
-        } catch (SQLException | ParseException exception) {
+        } catch (SQLException exception) {
             Bukkit.getConsoleSender().sendMessage("§e" + DateUtil.getTimeStamp() + "Ocorreu um erro na tabela USERS: §r" + exception.getMessage());
         }
         return null;
@@ -206,7 +182,7 @@ public class Users implements TableService<User, String> {
     public int getSize() {
         int count = 0;
 
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT nickName FROM gta_users")) {
                 try (ResultSet rs = st.executeQuery()) {
                     while (rs.next()) count++;
@@ -222,11 +198,11 @@ public class Users implements TableService<User, String> {
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
-        try (val conn = plugin.getDatabaseManager().getDataSource().getConnection()) {
+        try (val conn = databaseManager.getDataSource().getConnection()) {
             try (PreparedStatement st = conn.prepareStatement("SELECT * FROM gta_users")) {
 
                 try (ResultSet rs = st.executeQuery()) {
-                    if (rs.next()) {
+                    while (rs.next()) {
                         val nickName = rs.getString("nickName");
 
                         users.add(get(nickName));

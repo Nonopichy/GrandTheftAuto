@@ -16,6 +16,7 @@ OrganizationMaxMembers: '&cA organização já está cheia. Expulse alguém.'
 OrganizationSetLeaderSubCommandWrong: '&cUso incorreto. Use: /organizations setleader <organization> <player>.'
 OrganizationPlayerAlreadyLeader: '&cEsse jogador já é lider de uma organização.'
 OrganizationLeaderSetted: '&aVocê setou o jogador %player% como lider da organização %organization%.'
+OrganizationAlreadyHaveLeader: '&cEssa organização já tem um lider.' #
 
 # Users
 
@@ -28,6 +29,8 @@ Rg:
   - '&bEmprego[%job%] ORG:[%organization%] Cargo[%cargo%] Casa[%house%] Empresa[%company%] Fazenda[%farm%]'
 
 UserNotFound: '&cUsuário não encontrado no banco de dados.'
+
+GenderChanged: '&aVocê trocou o seu genero para &e%gender%.'
 
 # Show RG
 

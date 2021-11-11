@@ -25,23 +25,26 @@ public class OrganizationsInviteSubCommand implements SubCommand {
 
     @Override
     public boolean execute(CommandSender sender, String[] args) {
+
         if (!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(plugin.getMessageManager().getSimpleMessage("NoConsole"));
-            return false;
+            //return false;
         }
 
         val player = (Player) sender;
 
-        val organization = plugin.getDatabaseManager().getOrganizations().getByLeader(player.getName());
+        val organization = plugin.getDatabaseManager().getOrganizations().getByMember(player.getName());
 
         if (organization == null) {
             player.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationNotLeader"));
-            return false;
+            //return false;
         }
+
+        val organizationPlayer = organization.getMembers();
 
         if (organization.getMembers().size() > 30) {
             player.sendMessage(plugin.getMessageManager().getSimpleMessage("OrganizationMaxMembers"));
-            return false;
+            //return false;
         }
 
         // TODO: 20/09/2021 check this 
