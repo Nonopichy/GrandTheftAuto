@@ -6,6 +6,7 @@ import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsCr
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsInviteSubCommand;
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsSeeSubCommand;
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsSetLeaderSubCommand;
+import me.matt.grandtheftauto.organizations.enums.OrganizationRole;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

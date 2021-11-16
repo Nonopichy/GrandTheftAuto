@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.val;
 import me.matt.grandtheftauto.adapter.impl.OrganizationAdapter;
 import me.matt.grandtheftauto.adapter.impl.UserAdapter;
+import me.matt.grandtheftauto.adapter.manager.AdapterManager;
 import me.matt.grandtheftauto.database.manager.impl.DatabaseManager;
+import me.matt.grandtheftauto.log.LogManager;
 import me.matt.grandtheftauto.messages.MessageManager;
 import me.matt.grandtheftauto.organizations.commands.OrganizationsCommand;
 import me.matt.grandtheftauto.users.commands.gender.ChangeGenderCommand;
@@ -15,8 +17,6 @@ import me.matt.grandtheftauto.users.listener.PlayerJoin;
 import me.matt.grandtheftauto.users.listener.PlayerLastLogin;
 import me.matt.grandtheftauto.users.listener.PlayerSpawn;
 import me.matt.grandtheftauto.util.DateUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Optional;
@@ -28,29 +28,28 @@ public final class GrandTheftAuto extends JavaPlugin {
     @Getter private DatabaseManager databaseManager;
     @Getter private MessageManager messageManager;
 
-    @Getter private UserAdapter userAdapter;
-    @Getter private OrganizationAdapter organizationAdapter;
+    @Getter private LogManager logManager;
 
-    private final ConsoleCommandSender consoleCommandSender = Bukkit.getConsoleSender();
+    @Getter private AdapterManager adapterManager;
 
     @Override
     public void onEnable() {
         instance = Optional.of(this);
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Servidor carregando.");
+        logManager.log("Servidor carregando.");
 
         loadModules();
         registerCommands();
         registerEvents();
         initDatabase();
 
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Servidor carregado com sucesso.");
+        logManager.log("Servidor carregado com sucesso.");
     }
 
     @Override
     public void onDisable() {
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Desligando o servidor.");
+        logManager.log("Desligando o servidor.");
         databaseManager.unload();
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Servidor desligado com sucesso.");
+        logManager.log("§e" + DateUtil.getTimeStamp() + "Servidor desligado com sucesso.");
     }
 
     private void registerCommands() {
@@ -67,7 +66,7 @@ public final class GrandTheftAuto extends JavaPlugin {
         // user.gender
         new ChangeGenderCommand(this);
 
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Comandos registrados com sucesso.");
+        logManager.log("Comandos registrados com sucesso.");
     }
 
     private void registerEvents() {
@@ -76,35 +75,33 @@ public final class GrandTheftAuto extends JavaPlugin {
         new PlayerSpawn(this);
         new PlayerLastLogin(this);
 
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Eventos registrados com sucesso.'");
+        logManager.log("Eventos registrados com sucesso.'");
     }
 
     private void loadModules() {
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Carregando modulos...");
+        logManager = new LogManager();
+        logManager.log("Carregando modulos.");
         val start = System.currentTimeMillis();
 
-        // config
         saveDefaultConfig();
-
-        // messagemanager
         messageManager = new MessageManager();
 
-        // adapters
-        userAdapter = new UserAdapter(this);
-        organizationAdapter = new OrganizationAdapter(this);
+        // adapter
+        adapterManager = new AdapterManager(this);
 
         val result = System.currentTimeMillis() - start;
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Modulos carregados com sucesso em " + result + "ms.");
+        logManager.log("Modulos carregados com sucesso em " + result + "ms.");
     }
 
     private void initDatabase() {
+        logManager.log("Abrindo conexao com banco de dados.");
         val start = System.currentTimeMillis();
 
         databaseManager = new DatabaseManager(this);
         databaseManager.load();
 
         val result = System.currentTimeMillis() - start;
-        consoleCommandSender.sendMessage("§e" + DateUtil.getTimeStamp() + "Conexao com banco de dados aberta com sucesso em " + result + "ms.");
+        logManager.log("Conexao com banco de dados aberta com sucesso em " + result + "ms.");
     }
 
     public static GrandTheftAuto getInstance() {
