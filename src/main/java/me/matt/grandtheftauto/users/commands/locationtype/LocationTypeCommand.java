@@ -16,41 +16,41 @@ public class LocationTypeCommand implements CommandExecutor {
         this.plugin = plugin;
         plugin.getCommand("locationtype").setExecutor(this);
     }
-
+    
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        val manager = plugin.getMessageManager();
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("NoConsole"));
+            sender.sendMessage(manager.getSimpleMessage("NoConsole"));
             return false;
         }
 
         if (args.length != 1) {
             // TODO: 23/09/2021 show atual locationtype
-            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("LocationTypeCommandWrong"));
+            sender.sendMessage(manager.getSimpleMessage("LocationTypeCommandWrong"));
             return false;
         }
 
-        val player = (Player) sender;
-        val user = plugin.getDatabaseManager().getUsers().get(player.getName());
+        val p = (Player) sender;
+        val data = plugin.getDatabaseManager().getUsers();
+        val user = data.get(p.getName());
 
         switch (args[0].toLowerCase()) {
             case "spawn":
                 // TODO: 20/09/2021 check
                 user.setLocationType(LocationType.SPAWN);
-                plugin.getDatabaseManager().getUsers().update(user);
-                player.sendMessage(plugin.getMessageManager().getSimpleMessage("LocationTypeSuccess").replace("%locationType%", args[0].toUpperCase()));
+                data.update(user);
+                p.sendMessage(manager.getSimpleMessage("LocationTypeSuccess").replace("%locationType%", args[0].toUpperCase()));
                 break;
             case "hq":
                 user.setLocationType(LocationType.HQ);
-                plugin.getDatabaseManager().getUsers().update(user);
-                player.sendMessage(plugin.getMessageManager().getSimpleMessage("LocationTypeSuccess").replace("%locationType%", args[0].toUpperCase()));
+                data.getUsers().update(user);
+                p.sendMessage(manager.getSimpleMessage("LocationTypeSuccess").replace("%locationType%", args[0].toUpperCase()));
                 break;
             default:
-                player.sendMessage(plugin.getMessageManager().getSimpleMessage("LocationTypeWrongCommand"));
+                p.sendMessage(manager.getSimpleMessage("LocationTypeWrongCommand"));
                 break;
         }
-
-        return false;
+        return true;
     }
-
 }
