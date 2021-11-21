@@ -21,20 +21,20 @@ public class ChangeGenderCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(plugin.getMessageManager().getSimpleMessage("NoConsole"));
+            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("NoConsole"));
             return false;
         }
 
-        val player = (Player) sender;
-
-        val user = plugin.getDatabaseManager().getUsers().get(player.getName());
+        val p = (Player) sender;
+        val data = plugin.getDatabaseManager().getUsers();
+        val user = data.get(p.getName());
         val gender = user.getGender();
 
         user.setGender(gender == Gender.MALE ? Gender.FEMALE : Gender.MALE);
 
-        plugin.getDatabaseManager().getUsers().update(user);
+        data.update(user);
         sender.sendMessage(plugin.getMessageManager().getSimpleMessage("GenderChanged")
                 .replace("%gender%", user.getGender() == Gender.MALE ? "Homem" : "Mulher"));
-        return false;
+        return true;
     }
 }
