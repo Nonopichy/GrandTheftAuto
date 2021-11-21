@@ -8,17 +8,13 @@ import java.sql.ResultSet;
 
 public class OrganizationAdapter implements Adapter<Organization, ResultSet> {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     public OrganizationAdapter(GrandTheftAuto plugin) {
         this.plugin = plugin;
     }
-
     @Override
     public Organization adapt(ResultSet resultSet) {
-
-        //
         return null;
     }
-
 }
