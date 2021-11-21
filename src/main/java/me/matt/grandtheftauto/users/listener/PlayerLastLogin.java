@@ -14,19 +14,16 @@ public class PlayerLastLogin implements Listener {
     private final GrandTheftAuto plugin;
 
     public PlayerLastLogin(GrandTheftAuto plugin) {
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        Bukkit.getPluginManager().registerEvents(this, this.plugin = plugin);
     }
-
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
+    public void onJoin(PlayerJoinEvent e) {
         // TODO: 20/09/2021 do the update function
-        val user = plugin.getDatabaseManager().getUsers().get(event.getPlayer().getName());
+        val data = plugin.getDatabaseManager().getUsers();
+        val user = data.get(e.getPlayer().getName());
         if (user == null) return;
         val lastLogin = new Date();
         user.setLastLogin(lastLogin);
-
-        plugin.getDatabaseManager().getUsers().update(user);
+        data.update(user);
     }
-
 }
