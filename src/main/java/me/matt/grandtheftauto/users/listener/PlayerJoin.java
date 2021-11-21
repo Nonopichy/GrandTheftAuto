@@ -12,16 +12,14 @@ public class PlayerJoin implements Listener {
     private GrandTheftAuto plugin;
 
     public PlayerJoin(GrandTheftAuto plugin) {
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        Bukkit.getPluginManager().registerEvents(this, this.plugin = plugin);
     }
-
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        if (plugin.getDatabaseManager().getUsers().hasBy(event.getPlayer().getName())) return;
-
-        User user = new User(event.getPlayer().getName());
-        plugin.getDatabaseManager().getUsers().add(user);
+    public void onJoin(PlayerJoinEvent e) {
+        val p = e.getPlayer();
+        val data = plugin.getDatabaseManager().getUsers();
+        val name = p.getName();
+        if (data.hasBy(name)) return;
+        data.add(new User(name));
     }
-
 }
