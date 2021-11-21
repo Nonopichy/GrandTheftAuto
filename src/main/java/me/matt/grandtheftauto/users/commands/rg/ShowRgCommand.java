@@ -10,44 +10,42 @@ import org.bukkit.entity.Player;
 
 public class ShowRgCommand implements CommandExecutor {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     public ShowRgCommand(GrandTheftAuto plugin) {
         this.plugin = plugin;
         plugin.getCommand("showrg").setExecutor(this);
     }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        val manager = plugin.getMessageManager();
         if (!(sender instanceof Player)) {
-            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("NoConsole"));
+            sender.sendMessage(manager.getSimpleMessage("NoConsole"));
             return false;
         }
 
         if (args.length != 1) {
-            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("ShowRgWrongCommand"));
+            sender.sendMessage(manager.getSimpleMessage("ShowRgWrongCommand"));
             return false;
         }
 
-        val player = (Player) sender;
+        val p = (Player) sender;
         val target = Bukkit.getPlayer(args[0]);
 
         if (target == null) {
-            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("Offline"));
+            sender.sendMessage(manager.getSimpleMessage("Offline"));
             return false;
         }
 
         val radius = plugin.getConfig().getInt("RadiusShowRg");
 
-        if (player.getLocation().distance(target.getLocation()) > radius) {
-            sender.sendMessage(plugin.getMessageManager().getSimpleMessage("PlayerTooFar"));
+        if (p.getLocation().distance(target.getLocation()) > radius) {
+            sender.sendMessage(manager.getSimpleMessage("PlayerTooFar"));
             return false;
         }
 
-        val user = plugin.getDatabaseManager().getUsers().get(player.getName());
+        val user = plugin.getDatabaseManager().getUsers().get(p.getName());
         RgUtil.sendRgMessage(target, user);
-
-        return false;
+        return true;
     }
-
 }
