@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public class RgCommand implements CommandExecutor {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     public RgCommand(GrandTheftAuto plugin) {
         this.plugin = plugin;
@@ -18,29 +18,24 @@ public class RgCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        val manager = plugin.getMessageManager();
         if (!(sender instanceof Player)) {
-            if (args.length == 1) {
-                val name = args[0];
-                val user = plugin.getDatabaseManager().getUsers().get(name);
-
-                if (user == null) {
-                    sender.sendMessage(plugin.getMessageManager().getSimpleMessage("UserNotFound"));
-                    return false;
-                }
-
-                RgUtil.sendRgMessage(sender, user);
-            } else {
-                sender.sendMessage(plugin.getMessageManager().getSimpleMessage("NoConsole"));
-            }
+            sender.sendMessage(manager.getSimpleMessage("NoConsole"));
             return false;
         }
-
-        val player = (Player) sender;
-        val user = plugin.getDatabaseManager().getUsers().get(player.getName());
-
-        RgUtil.sendRgMessage(player, user);
-
+        val data = plugin.getDatabaseManager().getUsers();
+        if (args.length == 1) {
+            val name = args[0];
+            val user = data.get(name);
+            if (user == null) {
+                sender.sendMessage(manager.getSimpleMessage("UserNotFound"));
+                return false;
+            }
+            RgUtil.sendRgMessage(sender, user);
+            return false;
+        }
+        val p = (Player) sender;
+        RgUtil.sendRgMessage(p, data.get(p.getName()));
         return false;
     }
-
 }
