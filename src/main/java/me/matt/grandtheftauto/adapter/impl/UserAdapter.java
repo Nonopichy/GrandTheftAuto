@@ -52,8 +52,31 @@ public class UserAdapter implements Adapter<User, ResultSet> {
             val farm = resultSet.getInt("farm");
             val lastLogin = simpleDateFormat.parse(resultSet.getString("lastLogin"));
 
-            return new User(nick, firstLogin, level, gender, money, moneyInBank, cashBalance, golds, warns, accountType, locationType, vipTime, crimes, stars, killedTimes, diedTimes, job, organization, organizationRole, house, company, farm, lastLogin);
-
+            return User.builder()
+                    .nickName(nick)
+                    .firstLogin(firstLogin)
+                    .level(level)
+                    .gender(gender)
+                    .moneyBalance(money)
+                    .moneyInBank(moneyInBank)
+                    .cashBalance(cashBalance)
+                    .golds(golds)
+                    .warns(warns)
+                    .accountType(accountType)
+                    .locationType(locationType)
+                    .vipTime(vipTime)
+                    .crimes(crimes)
+                    .stars(stars)
+                    .killedTimes(killedTimes)
+                    .diedTimes(diedTimes)
+                    .job(job)
+                    .organization(organization)
+                    .organizationRole(organizationRole)
+                    .house(house)
+                    .company(company)
+                    .farm(farm)
+                    .lastLogin(lastLogin)
+                    .build();
 
         } catch (SQLException | ParseException exception) {
             Bukkit.getConsoleSender().sendMessage("Ocorreu um erro em USERADAPTER: " + exception.getMessage());

@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// change this
+// optimize this
 public class MessageManager {
 
-    private Config messages = new Config("messages.yml");
+    private final Config messages = new Config("messages.yml");
 
-    private Map<String, String> simpleMessages = new HashMap<>();
-    private Map<String, List<String>> multiMessages = new HashMap<>();
+    private final Map<String, String> simpleMessages = new HashMap<>();
+    private final Map<String, List<String>> multiMessages = new HashMap<>();
 
     public MessageManager() {
         messages.saveDefaultConfig();

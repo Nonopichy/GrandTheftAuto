@@ -13,7 +13,7 @@ import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Data // ..
 public class Organization {
 
     private short id;
@@ -24,13 +24,6 @@ public class Organization {
     private Location hqLocation;
     private Map<String, OrganizationRole> members;
     private boolean isVip;
-
-    // in database ::
-
-    // xMattNice_-3;SOekd-2
-    // name - cargo ; name - cargo
-
-    //
 
     /*
      * Function to register new organization.

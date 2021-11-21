@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+// recheck this
 public class Job {
 
     private short id;

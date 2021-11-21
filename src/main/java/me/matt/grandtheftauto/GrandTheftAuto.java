@@ -2,8 +2,6 @@ package me.matt.grandtheftauto;
 
 import lombok.Getter;
 import lombok.val;
-import me.matt.grandtheftauto.adapter.impl.OrganizationAdapter;
-import me.matt.grandtheftauto.adapter.impl.UserAdapter;
 import me.matt.grandtheftauto.adapter.manager.AdapterManager;
 import me.matt.grandtheftauto.database.manager.impl.DatabaseManager;
 import me.matt.grandtheftauto.log.LogManager;
@@ -23,7 +21,7 @@ import java.util.Optional;
 
 public final class GrandTheftAuto extends JavaPlugin {
 
-    private static Optional<GrandTheftAuto> instance;
+    private static Optional<GrandTheftAuto> instance; // ANALISE TOTAL (IREI RETIRAR)
 
     @Getter private DatabaseManager databaseManager;
     @Getter private MessageManager messageManager;
@@ -36,6 +34,7 @@ public final class GrandTheftAuto extends JavaPlugin {
     public void onEnable() {
         instance = Optional.of(this);
         logManager.log("Servidor carregando.");
+
 
         loadModules();
         registerCommands();

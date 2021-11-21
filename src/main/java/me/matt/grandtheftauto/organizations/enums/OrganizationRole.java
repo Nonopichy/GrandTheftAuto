@@ -12,12 +12,15 @@ public enum OrganizationRole {
     SUB_LEADER(3), // 3
     LEADER(4); // 4
 
+    // Sorry, i don't know how to use enum.
+
     private int number;
 
     OrganizationRole(int number) {
         this.number = number;
     }
 
+    // And i don't know if using this is the best option.
     public static OrganizationRole getOrganizationRoleByNumber(int number) {
 
         switch (number) {

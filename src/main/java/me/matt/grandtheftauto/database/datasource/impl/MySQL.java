@@ -8,9 +8,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+// Not working
 public class MySQL implements DataSource {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     private Connection connection;
 

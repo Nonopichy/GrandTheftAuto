@@ -15,9 +15,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// optimize
+// use organizationadapter
+// use log
 public class Organizations implements TableService<Organization, String> {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     public Organizations(GrandTheftAuto plugin) {
         this.plugin = plugin;
@@ -87,7 +90,7 @@ public class Organizations implements TableService<Organization, String> {
                 }
             }
         } catch (SQLException exception) {
-            Bukkit.getConsoleSender().sendMessage("§e" + DateUtil.getTimeStamp() + "Ocorreu um erro na tabela ORGANIZATIONS: §r" + exception.getMessage());
+            Bukkit.getConsoleSender().sendMessage("§e" + DateUtil.getTimeStamp() + "Ocorreu um erro na tabela ORGANIZATIONS: §r" + exception.getMessage()); // use log
         }
 
         return false;

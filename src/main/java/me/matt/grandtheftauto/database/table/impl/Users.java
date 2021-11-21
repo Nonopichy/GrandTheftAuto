@@ -16,14 +16,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+// use more adapter
+// use more final
+// use log
 public class Users implements TableService<User, String> {
 
-    private DatabaseManager databaseManager;
-    private UserAdapter userAdapter;
+    private final DatabaseManager databaseManager;
+    private final UserAdapter userAdapter;
 
     public Users(GrandTheftAuto plugin) {
         this.databaseManager = plugin.getDatabaseManager();
-        this.userAdapter = plugin.getUserAdapter();
+        this.userAdapter = plugin.getAdapterManager().getUserAdapter();
     }
 
     @Override

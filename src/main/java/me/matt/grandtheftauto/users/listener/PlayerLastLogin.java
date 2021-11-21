@@ -7,13 +7,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PlayerLastLogin implements Listener {
 
-    private GrandTheftAuto plugin;
-    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private final GrandTheftAuto plugin;
 
     public PlayerLastLogin(GrandTheftAuto plugin) {
         this.plugin = plugin;

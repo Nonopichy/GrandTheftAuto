@@ -1,9 +1,6 @@
 package me.matt.grandtheftauto.users.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.ToString;
-import lombok.val;
+import lombok.*;
 import me.matt.grandtheftauto.GrandTheftAuto;
 import me.matt.grandtheftauto.jobs.model.Job;
 import me.matt.grandtheftauto.organizations.enums.OrganizationRole;
@@ -14,8 +11,10 @@ import me.matt.grandtheftauto.users.enums.LocationType;
 
 import java.util.Date;
 
+@Builder
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @ToString
 public class User {
 

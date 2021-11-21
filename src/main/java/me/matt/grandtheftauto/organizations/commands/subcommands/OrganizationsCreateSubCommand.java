@@ -13,7 +13,7 @@ import java.util.List;
 
 public class OrganizationsCreateSubCommand implements SubCommand {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     public OrganizationsCreateSubCommand(GrandTheftAuto plugin) {
         this.plugin = plugin;

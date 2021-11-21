@@ -6,9 +6,10 @@ import me.matt.grandtheftauto.jobs.model.Job;
 
 import java.util.List;
 
+// JobAdapter
 public class Jobs implements TableService<Job, String> {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     public Jobs(GrandTheftAuto plugin) {
         this.plugin = plugin;
@@ -16,6 +17,8 @@ public class Jobs implements TableService<Job, String> {
 
     @Override
     public void createTable() {
+        // this!!!!!!!!!!
+
         // id short not null
         // name varchar(?)
         // necessaryLevel int not null

@@ -6,7 +6,6 @@ import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsCr
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsInviteSubCommand;
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsSeeSubCommand;
 import me.matt.grandtheftauto.organizations.commands.subcommands.OrganizationsSetLeaderSubCommand;
-import me.matt.grandtheftauto.organizations.enums.OrganizationRole;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,8 +16,8 @@ import java.util.List;
 
 public class OrganizationsCommand implements CommandExecutor {
 
-    private GrandTheftAuto plugin;
-    private List<SubCommand> subCommands = new ArrayList<>();
+    private final GrandTheftAuto plugin;
+    private final List<SubCommand> subCommands = new ArrayList<>();
 
     public OrganizationsCommand(GrandTheftAuto plugin) {
         this.plugin = plugin;

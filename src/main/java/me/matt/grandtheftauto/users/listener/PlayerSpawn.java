@@ -5,13 +5,12 @@ import me.matt.grandtheftauto.GrandTheftAuto;
 import me.matt.grandtheftauto.util.parser.LocationParser;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerSpawn implements Listener {
 
-    private GrandTheftAuto plugin;
+    private final GrandTheftAuto plugin;
 
     public PlayerSpawn(GrandTheftAuto plugin) {
         this.plugin = plugin;
@@ -21,7 +20,10 @@ public class PlayerSpawn implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         val user = plugin.getDatabaseManager().getUsers().get(event.getPlayer().getName());
-        if (user == null) event.getPlayer().teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
+        if (user == null) {
+            event.getPlayer().teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
+            return;
+        }
 
         switch (user.getLocationType()) {
             case SPAWN:

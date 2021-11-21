@@ -25,6 +25,7 @@ public class DatabaseManager implements ManagerService {
     public DatabaseManager(GrandTheftAuto plugin) {
         this.plugin = plugin;
         val section = plugin.getConfig().getConfigurationSection("Database");
+        // optimize this
         val mode = section.getString("Mode");
 
         switch(mode.toLowerCase()) {
@@ -35,7 +36,7 @@ public class DatabaseManager implements ManagerService {
                 dataSource = new SQLite(plugin);
                 break;
             default:
-                Bukkit.getConsoleSender().sendMessage("Modo errado. Reveja a config.yml");
+                Bukkit.getConsoleSender().sendMessage("Modo errado. Reveja a config.yml"); // use log
                 break;
         }
 
