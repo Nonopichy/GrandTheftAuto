@@ -13,25 +13,23 @@ public class PlayerSpawn implements Listener {
     private final GrandTheftAuto plugin;
 
     public PlayerSpawn(GrandTheftAuto plugin) {
-        this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        Bukkit.getPluginManager().registerEvents(this, this.plugin = plugin);
     }
-
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        val user = plugin.getDatabaseManager().getUsers().get(event.getPlayer().getName());
+    public void onJoin(PlayerJoinEvent e) {
+        val p = e.getPlayer();
+        val user = plugin.getDatabaseManager().getUsers().get(p.getName());
         if (user == null) {
-            event.getPlayer().teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
+            p.teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
             return;
         }
-
         switch (user.getLocationType()) {
             case SPAWN:
-                event.getPlayer().teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
+                p.teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
                 break;
             case HQ:
-                if (user.getOrganization() == null) event.getPlayer().teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
-                else event.getPlayer().teleport(user.getOrganization().getHqLocation());
+                if (user.getOrganization() == null) p.teleport(LocationParser.stringToLoc(plugin.getConfig().getString("Spawn")));
+                else p.teleport(user.getOrganization().getHqLocation());
                 break;
         }
 
