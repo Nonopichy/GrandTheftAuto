@@ -32,7 +32,5 @@ public class PlayerSpawn implements Listener {
                 else p.teleport(user.getOrganization().getHqLocation());
                 break;
         }
-
     }
-
 }
